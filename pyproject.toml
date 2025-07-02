@@ -1,0 +1,112 @@
+# UV Workspace Configuration for RPSLS Microservices
+# This file serves as the workspace root and development tooling configuration
+
+[tool.uv.workspace]
+members = [
+    "services/game-logic",
+    "services/player-management", 
+    "services/matchmaking",
+    "services/game-history",
+    "shared"
+]
+
+[tool.uv.sources]
+shared = { workspace = true }
+
+# Development dependencies for the entire workspace
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",           # Testing framework for all services
+    "pytest-asyncio>=0.23.0",  # Async testing support
+    "httpx>=0.28.0",           # For integration testing between services
+    "ruff>=0.8.0",             # Fast linting + formatting (replaces black, isort, flake8)
+    "mypy>=1.8.0",             # Type checking
+]
+
+# Entry points for our microservices
+[project.scripts]
+rpsls-game-logic = "services.game_logic.app.main:app"
+rpsls-player = "services.player_management.app.main:app"
+rpsls-matchmaking = "services.matchmaking.app.main:app"
+rpsls-history = "services.game_history.app.main:app"
+
+
+# Ruff Configuration (replaces black, isort, flake8)
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+exclude = [
+    ".bzr",
+    ".direnv", 
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "PTH", # flake8-use-pathlib
+]
+ignore = [
+    "E501",  # line too long, handled by formatter
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["shared"]
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+# MyPy Configuration
+[tool.mypy]
+python_version = "3.12"
+strict = true  # Enables most strict checks in one setting
+warn_return_any = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["asyncpg.*", "sqlalchemy.*"]
+ignore_missing_imports = true
+
+# Pytest Configuration
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = [
+    "services/*/tests",
+    "shared/tests"
+]
+asyncio_mode = "auto"
