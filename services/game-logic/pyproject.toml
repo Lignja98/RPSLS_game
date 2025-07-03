@@ -1,18 +1,19 @@
 [project]
-name = "game-logic-service"
+name = "rpsls-game-logic"
 version = "0.1.0"
-description = "Stateless game logic service for Rock Paper Scissors Lizard Spock"
-requires-python = ">=3.12"
+description = "Game logic microservice for Rock Paper Scissors Lizard Spock"
 dependencies = [
-    "fastapi>=0.115.14",
-    "pydantic>=2.11.7",
-    "uvicorn>=0.35.0",
-    "shared",  # Workspace dependency
+    "fastapi>=0.110.0",
+    "pydantic>=2.6.1",
+    "uvicorn>=0.27.1",
+    "shared",  # Local shared package
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
-    "pytest>=8.4.1",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.26.0",  # For TestClient
 ]
 
 [build-system]

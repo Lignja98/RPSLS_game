@@ -5,9 +5,9 @@ requires-python = ">=3.12"
 [manifest]
 members = [
     "game-history-service",
-    "game-logic-service",
     "matchmaking-service",
     "player-management-service",
+    "rpsls-game-logic",
     "shared",
 ]
 
@@ -159,33 +159,6 @@ dev = [
     { name = "alembic", specifier = ">=1.16.2" },
     { name = "pytest", specifier = ">=8.4.1" },
 ]
-
-[[package]]
-name = "game-logic-service"
-version = "0.1.0"
-source = { editable = "services/game-logic" }
-dependencies = [
-    { name = "fastapi" },
-    { name = "pydantic" },
-    { name = "shared" },
-    { name = "uvicorn" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "fastapi", specifier = ">=0.115.14" },
-    { name = "pydantic", specifier = ">=2.11.7" },
-    { name = "shared", editable = "shared" },
-    { name = "uvicorn", specifier = ">=0.35.0" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8.4.1" }]
 
 [[package]]
 name = "greenlet"
@@ -544,6 +517,36 @@ sdist = { url = "https://files.pythonhosted.org/packages/d0/d4/14f53324cb1a6381b
 wheels = [
     { url = "https://files.pythonhosted.org/packages/30/05/ce271016e351fddc8399e546f6e23761967ee09c8c568bbfbecb0c150171/pytest_asyncio-1.0.0-py3-none-any.whl", hash = "sha256:4f024da9f1ef945e680dc68610b52550e36590a67fd31bb3b4943979a1f90ef3", size = 15976, upload-time = "2025-05-26T04:54:39.035Z" },
 ]
+
+[[package]]
+name = "rpsls-game-logic"
+version = "0.1.0"
+source = { editable = "services/game-logic" }
+dependencies = [
+    { name = "fastapi" },
+    { name = "pydantic" },
+    { name = "shared" },
+    { name = "uvicorn" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "httpx" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fastapi", specifier = ">=0.110.0" },
+    { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.26.0" },
+    { name = "pydantic", specifier = ">=2.6.1" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0.0" },
+    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.23.0" },
+    { name = "shared", editable = "shared" },
+    { name = "uvicorn", specifier = ">=0.27.1" },
+]
+provides-extras = ["dev"]
 
 [[package]]
 name = "ruff"
