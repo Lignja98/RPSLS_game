@@ -1,5 +1,5 @@
 [project]
-name = "matchmaking-service"
+name = "matchmaking"
 version = "0.1.0"
 description = "Matchmaking and gameplay orchestration service for RPSLS game"
 requires-python = ">=3.12"

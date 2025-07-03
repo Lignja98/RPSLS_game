@@ -3,10 +3,10 @@
 
 [tool.uv.workspace]
 members = [
-    "services/game-logic",
-    "services/player-management", 
+    "services/game_logic",
+    "services/player_management", 
     "services/matchmaking",
-    "services/game-history",
+    "services/game_history",
     "shared"
 ]
 
@@ -95,8 +95,8 @@ ignore_missing_imports = true
 
 # Pytest Configuration
 [tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra -q --strict-markers"
+pythonpath = ["."]
+addopts = "-ra -q --strict-markers --import-mode=importlib"
 testpaths = [
     "services/*/tests",
     "shared/tests"

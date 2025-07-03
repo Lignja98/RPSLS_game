@@ -1,5 +1,5 @@
 [project]
-name = "player-management-service"
+name = "player-management"
 version = "0.1.0"
 description = "Player management service for RPSLS game"
 requires-python = ">=3.12"
