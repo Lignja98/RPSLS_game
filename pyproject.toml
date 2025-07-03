@@ -23,14 +23,6 @@ dev = [
     "mypy>=1.8.0",             # Type checking
 ]
 
-# Entry points for our microservices
-[project.scripts]
-rpsls-game-logic = "services.game_logic.app.main:app"
-rpsls-player = "services.player_management.app.main:app"
-rpsls-matchmaking = "services.matchmaking.app.main:app"
-rpsls-history = "services.game_history.app.main:app"
-
-
 # Ruff Configuration (replaces black, isort, flake8)
 [tool.ruff]
 target-version = "py312"
