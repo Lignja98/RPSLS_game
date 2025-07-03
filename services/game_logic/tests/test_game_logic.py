@@ -1,8 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app.game import GameLogic, GameRound
-from app.main import app
+from services.game_logic.app.game import GameLogic, GameRound
+from services.game_logic.app.main import app
 from shared.models import Choice, GameResult
 
 client = TestClient(app)
@@ -100,5 +100,6 @@ class TestGameAPI:
             "player_one_choice": "invalid",
             "player_two_choice": "rock"
         })
-        assert response.status_code == 400
-        assert "Invalid choice" in response.json()["detail"] 
+        assert response.status_code == 422
+        error_detail = response.json()["detail"][0]
+        assert error_detail["msg"] == "Input should be 'rock', 'paper', 'scissors', 'lizard' or 'spock'" 

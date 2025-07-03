@@ -1,5 +1,5 @@
 [project]
-name = "rpsls-game-logic"
+name = "game-logic"
 version = "0.1.0"
 description = "Game logic microservice for Rock Paper Scissors Lizard Spock"
 dependencies = [

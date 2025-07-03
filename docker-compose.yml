@@ -21,7 +21,7 @@ services:
   # Game Logic Service
   game-logic:
     build:
-      context: ./services/game-logic
+      context: ./services/game_logic
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
@@ -36,7 +36,7 @@ services:
   # Player Management Service
   player-management:
     build:
-      context: ./services/player-management
+      context: ./services/player_management
       dockerfile: Dockerfile
     ports:
       - "8001:8001"
@@ -78,7 +78,7 @@ services:
   # Game History Service
   game-history:
     build:
-      context: ./services/game-history
+      context: ./services/game_history
       dockerfile: Dockerfile
     ports:
       - "8003:8003"

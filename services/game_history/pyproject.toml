@@ -1,7 +1,7 @@
 [project]
-name = "player-management-service"
+name = "game-history"
 version = "0.1.0"
-description = "Player management service for RPSLS game"
+description = "Game history logging and retrieval service for RPSLS game"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.115.14",

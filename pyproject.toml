@@ -3,10 +3,10 @@
 
 [tool.uv.workspace]
 members = [
-    "services/game-logic",
-    "services/player-management", 
+    "services/game_logic",
+    "services/player_management", 
     "services/matchmaking",
-    "services/game-history",
+    "services/game_history",
     "shared"
 ]
 
