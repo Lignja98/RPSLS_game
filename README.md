@@ -58,16 +58,16 @@ Visit `http://localhost:8002/docs` for interactive API documentation.
 
 ```bash
 # Game Logic Service (Port 8000)
-cd services/game-logic && uvicorn app.main:app --reload --port 8000
+cd services/game_logic && uvicorn app.main:app --reload --port 8000
 
 # Player Management Service (Port 8001)
-cd services/player-management && uvicorn app.main:app --reload --port 8001
+cd services/player_management && uvicorn app.main:app --reload --port 8001
 
 # Matchmaking Service (Port 8002)
 cd services/matchmaking && uvicorn app.main:app --reload --port 8002
 
 # Game History Service (Port 8003)
-cd services/game-history && uvicorn app.main:app --reload --port 8003
+cd services/game_history && uvicorn app.main:app --reload --port 8003
 ```
 
 ## 💻 Development Guide
@@ -82,7 +82,7 @@ mypy .              # Type checking
 # Testing
 pytest              # Run all tests
 pytest -v           # Verbose output
-pytest services/game-logic/tests  # Test specific service
+pytest services/game_logic/tests  # Test specific service
 
 # Cleanup
 find . -type d -name "__pycache__" -exec rm -r {} +

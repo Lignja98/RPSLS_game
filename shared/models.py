@@ -3,7 +3,7 @@ Shared data models for the RPSLS game microservices.
 """
 
 from enum import Enum
-
+from typing import Dict, Optional
 from pydantic import BaseModel, Field
 
 
@@ -130,9 +130,17 @@ class Player(BaseModel):
 
 class GameHistoryEntry(BaseModel):
     """Game history entry model."""
-    id: int = Field(..., description="Game ID")
-    player_id: int = Field(..., description="Player ID")
-    player_choice: Choice = Field(..., description="Player's choice")
-    computer_choice: Choice = Field(..., description="Computer's choice")
-    result: GameResult = Field(..., description="Game result")
-    played_at: str = Field(..., description="Game timestamp")
+    id: Optional[int] = None
+    player_id: int
+    player_choice: Choice
+    computer_choice: Choice
+    result: GameResult
+    winning_move: Optional[str] = None
+    played_at: Optional[str] = None
+
+
+class PlayerStats(BaseModel):
+    """Player statistics model."""
+    player_id: int
+    stats: Dict[str, int]  # Maps GameResult values to counts
+ 
