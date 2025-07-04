@@ -21,8 +21,8 @@ services:
   # Game Service (FastAPI)
   game:
     build:
-      context: ./services/game
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/game/Dockerfile
     ports:
       - "8000:8000"
     environment:

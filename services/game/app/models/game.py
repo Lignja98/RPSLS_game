@@ -1,0 +1,1 @@
+"""SQLAlchemy model for a played game (to be implemented).""" 
