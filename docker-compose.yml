@@ -18,78 +18,20 @@ services:
       timeout: 5s
       retries: 5
 
-  # Game Logic Service
-  game-logic:
+  # Game Service (FastAPI)
+  game:
     build:
-      context: ./services/game-logic
+      context: ./services/game
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
-      - SERVICE_NAME=game-logic
+      - DATABASE_URL=postgresql+asyncpg://rpsls_user:rpsls_password@postgres:5432/rpsls_db
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Player Management Service
-  player-management:
-    build:
-      context: ./services/player-management
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8001"
-    environment:
-      - SERVICE_NAME=player-management
-      - DATABASE_URL=postgresql+asyncpg://rpsls_user:rpsls_password@postgres:5432/rpsls_db
-    depends_on:
-      postgres:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Matchmaking Service
-  matchmaking:
-    build:
-      context: ./services/matchmaking
-      dockerfile: Dockerfile
-    ports:
-      - "8002:8002"
-    environment:
-      - SERVICE_NAME=matchmaking
-      - GAME_LOGIC_SERVICE_URL=http://game-logic:8000
-      - PLAYER_SERVICE_URL=http://player-management:8001
-      - HISTORY_SERVICE_URL=http://game-history:8003
-      - RANDOM_API_URL=https://codechallenge.boohma.com/random
-    depends_on:
-      - game-logic
-      - player-management
-      - game-history
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Game History Service
-  game-history:
-    build:
-      context: ./services/game-history
-      dockerfile: Dockerfile
-    ports:
-      - "8003:8003"
-    environment:
-      - SERVICE_NAME=game-history
-      - DATABASE_URL=postgresql+asyncpg://rpsls_user:rpsls_password@postgres:5432/rpsls_db
-    depends_on:
-      postgres:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
       interval: 30s
       timeout: 10s
       retries: 3

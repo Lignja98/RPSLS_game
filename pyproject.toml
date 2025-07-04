@@ -1,26 +1,27 @@
-# UV Workspace Configuration for RPSLS Microservices
-# This file serves as the workspace root and development tooling configuration
+# RPSLS Game Service Configuration
 
-[tool.uv.workspace]
-members = [
-    "services/game-logic",
-    "services/player-management", 
-    "services/matchmaking",
-    "services/game-history",
-    "shared"
+[project]
+name = "game"
+version = "0.1.0"
+description = "Async FastAPI micro-service that plays Rock-Paper-Scissors-Lizard-Spock and persists game history in PostgreSQL."
+requires-python = ">=3.12"
+# Core runtime dependencies
+dependencies = [
+    "fastapi~=0.110",
+    "uvicorn[standard]~=0.29",
+    "sqlalchemy[asyncio]~=2.0",
+    "asyncpg~=0.29",
+    "alembic~=1.13",
+    "pydantic~=2.6",
 ]
 
-[tool.uv.sources]
-shared = { workspace = true }
-
-# Development dependencies for the entire workspace
+# Development dependencies
 [dependency-groups]
 dev = [
-    "pytest>=8.4.1",           # Testing framework for all services
-    "pytest-asyncio>=0.23.0",  # Async testing support
-    "httpx>=0.28.0",           # For integration testing between services
-    "ruff>=0.8.0",             # Fast linting + formatting (replaces black, isort, flake8)
-    "mypy>=1.8.0",             # Type checking
+    "pytest~=8.4",
+    "pytest-asyncio~=0.23",
+    "ruff~=0.8",
+    "mypy~=1.8",
 ]
 
 # Ruff Configuration (replaces black, isort, flake8)
@@ -73,7 +74,6 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["shared"]
 force-sort-within-sections = true
 
 [tool.ruff.format]
@@ -98,7 +98,6 @@ ignore_missing_imports = true
 minversion = "6.0"
 addopts = "-ra -q --strict-markers"
 testpaths = [
-    "services/*/tests",
-    "shared/tests"
+    "services/game/tests"
 ]
 asyncio_mode = "auto"
