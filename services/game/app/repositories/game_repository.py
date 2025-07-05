@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 import uuid
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.game import Game
@@ -43,3 +43,8 @@ class GameRepository:  # noqa: D101 – simple data-access layer
         stmt = select(Game).order_by(Game.created_at.desc()).limit(limit)
         result = await self._session.execute(stmt)
         return result.scalars().all()
+
+    async def clear(self) -> None:
+        """Delete all game records (scoreboard reset)."""
+
+        await self._session.execute(text("DELETE FROM game"))

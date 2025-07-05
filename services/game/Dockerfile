@@ -47,5 +47,9 @@ WORKDIR /app
 
 EXPOSE 8000
 
-# NOTE: adjust the import path if your FastAPI instance lives elsewhere.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"] 
+# Copy entrypoint script and make it executable
+COPY services/game/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Use the entrypoint to run migrations then start the app
+ENTRYPOINT ["/entrypoint.sh"] 
