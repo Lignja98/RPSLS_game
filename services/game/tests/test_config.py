@@ -6,7 +6,7 @@ import pytest
 from app.core import config as cfg
 
 
-def _fresh_settings(monkeypatch: pytest.MonkeyPatch, **env) -> cfg.Settings:  # type: ignore[name-defined]
+def _fresh_settings(monkeypatch: pytest.MonkeyPatch, **env) -> cfg.Settings:
     """Return a fresh Settings instance isolated from previous state.
 
     1. Clear any cached instance held by `get_settings`.
@@ -23,7 +23,7 @@ def _fresh_settings(monkeypatch: pytest.MonkeyPatch, **env) -> cfg.Settings:  # 
         monkeypatch.setenv(key, value)
 
     # 3. Reload the module so BaseSettings picks up env changes
-    importlib.reload(cfg)  # type: ignore[func-returns-value]
+    importlib.reload(cfg)
 
     return cfg.get_settings()
 
@@ -47,4 +47,4 @@ def test_version_is_non_empty(monkeypatch: pytest.MonkeyPatch):
     """VERSION field should always resolve to a non-empty string."""
 
     settings = _fresh_settings(monkeypatch)
-    assert isinstance(settings.VERSION, str) and settings.VERSION 
+    assert isinstance(settings.VERSION, str) and settings.VERSION

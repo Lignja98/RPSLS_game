@@ -1,1 +1,1 @@
-"""Choices endpoint (to be implemented).""" 
+"""Choices endpoint (to be implemented)."""

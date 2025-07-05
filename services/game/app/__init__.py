@@ -1,1 +1,1 @@
-"""Game service application package.""" 
+"""Game service application package."""

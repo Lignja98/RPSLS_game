@@ -1,1 +1,1 @@
-"""Endpoint routers for API v1.""" 
+"""Endpoint routers for API v1."""

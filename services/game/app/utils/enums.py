@@ -14,4 +14,4 @@ class Choice(IntEnum):
 class GameResult(StrEnum):
     PLAYER = "player"
     COMPUTER = "computer"
-    TIE = "tie" 
+    TIE = "tie"

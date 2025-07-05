@@ -1,1 +1,1 @@
-"""Game history endpoint (to be implemented).""" 
+"""Game history endpoint (to be implemented)."""

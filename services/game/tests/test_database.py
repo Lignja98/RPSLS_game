@@ -15,4 +15,4 @@ async def test_db_session_smoke():
 
     async with get_db_session() as session:
         result = await session.execute(text("SELECT 1"))
-        assert result.scalar_one() == 1 
+        assert result.scalar_one() == 1

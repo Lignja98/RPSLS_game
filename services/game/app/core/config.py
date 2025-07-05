@@ -32,7 +32,9 @@ class Settings(BaseSettings):
     # ---------------------------------------------------------------------
     # Core
     # ---------------------------------------------------------------------
-    ENVIRONMENT: str = Field("local", description="Execution environment: local/staging/prod")
+    ENVIRONMENT: str = Field(
+        "local", description="Execution environment: local/staging/prod"
+    )
     DEBUG: bool = Field(False, description="Enable debug logging & hot-reload helpers")
 
     # ------------------------------------------------------------------––-
@@ -62,6 +64,14 @@ class Settings(BaseSettings):
     )
 
     # ------------------------------------------------------------------––-
+    # External Services
+    # ------------------------------------------------------------------––-
+    RANDOM_API_URL: str = Field(
+        "https://codechallenge.boohma.com/random",
+        description="Endpoint that returns a JSON payload with a 'random_number' key",
+    )
+
+    # ------------------------------------------------------------------––-
     # Misc / Build metadata
     # ------------------------------------------------------------------––-
     VERSION: str = Field("0.1.0", description="Application version tag")
@@ -71,7 +81,9 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------------––-
     @field_validator("VERSION", mode="before")
     @classmethod
-    def _autodetect_version(cls, v: str | None):  # pragma: no cover – best-effort
+    def _autodetect_version(
+        cls, v: str | None
+    ) -> str:  # pragma: no cover – best-effort
         """Populate VERSION from package metadata if available."""
         if v and v != "0.1.0":
             return v
@@ -96,4 +108,4 @@ def get_settings() -> Settings:  # pragma: no cover  – called at import time
     file.
     """
 
-    return Settings() 
+    return Settings()  # type: ignore[call-arg]

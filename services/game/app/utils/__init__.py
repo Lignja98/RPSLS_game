@@ -1,1 +1,1 @@
-"""Utility helpers shared across the service.""" 
+"""Utility helpers shared across the service."""

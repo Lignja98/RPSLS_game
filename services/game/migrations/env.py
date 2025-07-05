@@ -9,6 +9,7 @@ from typing import cast
 
 from alembic import context
 from sqlalchemy.ext.asyncio import AsyncEngine, async_engine_from_config
+from sqlalchemy.engine import Connection
 
 # Ensure project "app" package is importable when Alembic runs standalone.
 PROJECT_ROOT = Path(__file__).resolve().parents[1]  # .../services/game
@@ -21,7 +22,7 @@ from app.db.database import Base, engine as sa_engine
 # ---------------------------------------------------------------------------
 # Alembic configuration
 # ---------------------------------------------------------------------------
-config = context.config  # type: ignore[attr-defined]
+config = context.config
 
 # Interpret the config file for Python logging.
 if config.config_file_name is not None:
@@ -40,6 +41,7 @@ target_metadata = Base.metadata
 # Helper routines
 # ---------------------------------------------------------------------------
 
+
 def run_migrations_offline() -> None:  # noqa: D401 – imperative mood
     """Run migrations in *offline* mode."""
 
@@ -50,7 +52,7 @@ def run_migrations_offline() -> None:  # noqa: D401 – imperative mood
         context.run_migrations()
 
 
-def do_run_migrations(connection):  # type: ignore[no-any-unbound]; driver signature
+def do_run_migrations(connection: Connection) -> None:
     context.configure(
         connection=connection,
         target_metadata=target_metadata,
@@ -67,7 +69,7 @@ def run_migrations_online() -> None:  # noqa: D401 – imperative mood
 
     connectable: AsyncEngine = sa_engine
 
-    async def run_async_migrations() -> None:  # noqa: D401
+    async def run_async_migrations() -> None:  # noqa: D401 – imperative mood
         async with connectable.connect() as connection:
             await connection.run_sync(do_run_migrations)
 
@@ -80,4 +82,4 @@ def run_migrations_online() -> None:  # noqa: D401 – imperative mood
 if context.is_offline_mode():
     run_migrations_offline()
 else:
-    run_migrations_online() 
+    run_migrations_online()

@@ -1,1 +1,1 @@
-"""Tests for game service.""" 
+"""Tests for game service."""

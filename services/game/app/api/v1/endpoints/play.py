@@ -1,1 +1,1 @@
-"""Play endpoint (to be implemented).""" 
+"""Play endpoint (to be implemented)."""

@@ -7,8 +7,9 @@ coupling to SQLAlchemy internals.
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+from typing import AsyncIterator
 
-from sqlalchemy.ext.asyncio import (  # type: ignore[import-not-found]
+from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
     async_sessionmaker,
@@ -55,7 +56,7 @@ async_session_factory: async_sessionmaker[AsyncSession] = async_sessionmaker(
 # FastAPI dependency
 # ---------------------------------------------------------------------------
 @asynccontextmanager
-async def get_db_session():  # noqa: D401 – imperative mood for FastAPI Depends
+async def get_db_session() -> AsyncIterator[AsyncSession]:  # noqa: D401 – imperative mood for FastAPI Depends
     """Provide an *AsyncSession* for a single request.
 
     Usage:
@@ -73,4 +74,4 @@ async def get_db_session():  # noqa: D401 – imperative mood for FastAPI Depend
         await session.rollback()
         raise
     finally:
-        await session.close() 
+        await session.close()

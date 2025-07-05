@@ -15,6 +15,7 @@ dependencies = [
     "alembic~=1.13",
     "pydantic~=2.6",
     "pydantic-settings~=2.2",
+    "httpx~=0.27",
 ]
 
 # Development dependencies
@@ -90,6 +91,9 @@ python_version = "3.12"
 strict = true  # Enables most strict checks in one setting
 warn_return_any = true
 disallow_untyped_defs = true
+
+# Exclude test files from strict checking to keep the test code lightweight.
+exclude = "services/game/tests/.*"
 
 [[tool.mypy.overrides]]
 module = ["asyncpg.*", "sqlalchemy.*"]

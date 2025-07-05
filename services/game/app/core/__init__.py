@@ -1,1 +1,1 @@
-"""Core utilities (config, constants).""" 
+"""Core utilities (config, constants)."""

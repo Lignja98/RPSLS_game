@@ -1,1 +1,1 @@
-"""Pydantic schemas for request/response bodies.""" 
+"""Pydantic schemas for request/response bodies."""

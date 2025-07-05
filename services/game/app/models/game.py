@@ -50,4 +50,4 @@ class Game(Base):
         return (
             f"<Game id={self.id} winner={self.winner} "
             f"player={self.player_choice} computer={self.computer_choice}>"
-        ) 
+        )

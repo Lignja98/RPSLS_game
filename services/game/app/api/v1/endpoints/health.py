@@ -1,1 +1,1 @@
-"""Health-check endpoint (to be implemented).""" 
+"""Health-check endpoint (to be implemented)."""
