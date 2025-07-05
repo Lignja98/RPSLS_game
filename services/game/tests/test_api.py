@@ -48,6 +48,9 @@ async def _client_fixture() -> AsyncIterator[AsyncClient]:
 
     fastapi_app.dependency_overrides.clear()
 
+    # Ensure all connections are cleaned up to avoid AsyncSession.close warnings
+    await test_engine.dispose()
+
 
 @pytest.mark.asyncio
 async def test_choices_endpoints(client: AsyncClient):

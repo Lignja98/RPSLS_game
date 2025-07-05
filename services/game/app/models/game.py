@@ -35,7 +35,11 @@ class Game(Base):
         comment="Computer's chosen gesture",
     )
     winner: Mapped[GameResult] = mapped_column(
-        Enum(GameResult),
+        Enum(
+            GameResult,
+            name="gameresult",
+            values_callable=lambda enum: [m.value for m in enum],
+        ),
         nullable=False,
         comment="Outcome of the game",
     )

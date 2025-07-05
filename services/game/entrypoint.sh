@@ -19,8 +19,11 @@ alembic upgrade head
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8000}"
 
+APP_MODULE="${ASGI_APP:-services.game.app.main:app}"
+
+# shellcheck disable=SC2236
 if [[ -n "${WORKERS:-}" ]]; then
-    exec uvicorn app.main:app --host "$HOST" --port "$PORT" --workers "$WORKERS"
+    exec uvicorn "$APP_MODULE" --host "$HOST" --port "$PORT" --workers "$WORKERS"
 else
-    exec uvicorn app.main:app --host "$HOST" --port "$PORT"
+    exec uvicorn "$APP_MODULE" --host "$HOST" --port "$PORT"
 fi 

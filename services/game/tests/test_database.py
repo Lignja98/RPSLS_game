@@ -12,6 +12,10 @@ async def test_db_session_smoke():
     integration test.
     """
 
-    async with get_db_session() as session:
+
+    async for session in get_db_session():
         result = await session.execute(text("SELECT 1"))
         assert result.scalar_one() == 1
+
+        # We only need the first (and only) yield value.
+        break

@@ -1,6 +1,6 @@
 # RPSLS Game – Single-Service Edition
 
-A **FastAPI** micro-service that plays *Rock Paper Scissors Lizard Spock*, stores each game in PostgreSQL, and exposes a simple REST API you can paste into the provided UI.
+A **FastAPI** micro-service that plays *Rock Paper Scissors Lizard Spock*, stores each game in PostgreSQL, and exposes a versioned REST API under `/api/v1` that plugs straight into the UI.
 
 ---
 
@@ -12,11 +12,24 @@ RPSLS_game/
 │   └── game/            # FastAPI application code & tests
 │       ├── app/
 │       ├── tests/
-│       └── Dockerfile   # multi-stage, uv-powered image
+│       ├── entrypoint.sh   # runs migrations then starts Uvicorn
+│       └── Dockerfile      # multi-stage, uv-powered image
 ├── pyproject.toml       # dependencies, linting, test config
 ├── docker-compose.yml   # game service + Postgres
 └── README.md
 ```
+
+---
+
+## 🔑 Prerequisites
+
+| Scenario | You need |
+|----------|----------|
+| Docker route *(recommended)* | • Docker Engine / Docker Desktop  
+| Local dev *(hot-reload)* | • Python ≥ 3.12  
+|                              | • [`uv`](https://github.com/astral-sh/uv) for dependency management |
+
+If `DATABASE_URL` is **not** set the service automatically falls back to an on-disk SQLite DB (`./game.db`).
 
 ---
 
@@ -57,7 +70,7 @@ python -m pip install --upgrade uv
 # Create a virtual-env and install deps (including dev tools)
 uv sync
 
-# Set your DB URL (or start Postgres via Docker)
+# Set your DB URL (optional)
 export DATABASE_URL="postgresql+asyncpg://rpsls_user:rpsls_password@localhost:5432/rpsls_db"
 
 # Run the API with hot-reload
@@ -74,15 +87,19 @@ pytest             # run tests
 
 ---
 
+
 ## 📑 API Overview (to be implemented)
 
-| Method | Path            | Description |
-|--------|-----------------|-------------|
-| GET    | /health         | Liveness probe |
-| GET    | /choices        | List available moves |
-| POST   | /play           | Play a round – returns winner |
-| GET    | /history        | Paginated list of past games |
-| GET    | /players/{id}   | Aggregated statistics |
+Base prefix: **`/api/v1`**
+
+| Method | Path             | Description |
+|--------|------------------|-------------|
+| GET    | /healthz         | Liveness probe |
+| GET    | /choices         | All possible moves |
+| GET    | /choice          | Return one random move |
+| POST   | /play            | Play a round – returns winner & game id |
+| GET    | /history         | Recent games (query `?limit=`) |
+| DELETE | /history         | Clear scoreboard |
 
 (OpenAPI docs are auto-generated at `/docs`.)
 

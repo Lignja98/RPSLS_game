@@ -7,7 +7,6 @@ coupling to SQLAlchemy internals.
 from __future__ import annotations
 
 from collections.abc import AsyncIterator
-from contextlib import asynccontextmanager
 
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
@@ -55,7 +54,6 @@ async_session_factory: async_sessionmaker[AsyncSession] = async_sessionmaker(
 # ---------------------------------------------------------------------------
 # FastAPI dependency
 # ---------------------------------------------------------------------------
-@asynccontextmanager
 async def get_db_session() -> AsyncIterator[AsyncSession]:  # noqa: D401 – imperative mood for FastAPI Depends
     """Provide an *AsyncSession* for a single request.
 
@@ -66,12 +64,10 @@ async def get_db_session() -> AsyncIterator[AsyncSession]:  # noqa: D401 – imp
     otherwise it rolls back.
     """
 
-    session: AsyncSession = async_session_factory()
-    try:
-        yield session
-        await session.commit()
-    except Exception:  # noqa: BLE001 – re-raise after rollback
-        await session.rollback()
-        raise
-    finally:
-        await session.close()
+    async with async_session_factory() as session:
+        try:
+            yield session
+            await session.commit()
+        except Exception:  # noqa: BLE001 – re-raise after rollback
+            await session.rollback()
+            raise
