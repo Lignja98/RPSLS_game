@@ -1,9 +1,7 @@
 import importlib
-from types import ModuleType
-
-import pytest
 
 from app.core import config as cfg
+import pytest
 
 
 def _fresh_settings(monkeypatch: pytest.MonkeyPatch, **env) -> cfg.Settings:
@@ -40,7 +38,7 @@ def test_custom_database_url(monkeypatch: pytest.MonkeyPatch):
 
     dsn = "postgresql+asyncpg://user:pass@db:5432/rpsls_test"
     settings = _fresh_settings(monkeypatch, DATABASE_URL=dsn)
-    assert settings.DATABASE_URL == dsn
+    assert dsn == settings.DATABASE_URL
 
 
 def test_version_is_non_empty(monkeypatch: pytest.MonkeyPatch):

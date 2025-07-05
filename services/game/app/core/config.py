@@ -10,10 +10,9 @@ All runtime settings are sourced from environment variables (or an optional
 
 from __future__ import annotations
 
-import os
 from functools import lru_cache
 from importlib.metadata import PackageNotFoundError, version
-from typing import List
+import os
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings
@@ -58,7 +57,7 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------------––-
     # CORS
     # ------------------------------------------------------------------––-
-    ALLOWED_ORIGINS: List[str] = Field(
+    ALLOWED_ORIGINS: list[str] = Field(
         default=["*"],
         description="Origins allowed for cross-origin requests",
     )

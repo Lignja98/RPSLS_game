@@ -1,7 +1,6 @@
-import pytest
-
-from app.utils.enums import Choice, GameResult
 from app.utils import game_logic as gl
+from app.utils.enums import Choice, GameResult
+import pytest
 
 
 @pytest.mark.parametrize(
@@ -65,7 +64,7 @@ async def test_random_choice_endpoint(monkeypatch):
         async def __aexit__(self, exc_type, exc, tb):
             pass
 
-        async def get(self, url):
+        async def get(self, _url):  # noqa: ARG002 – param required by interface
             return DummyResp(42)
 
     monkeypatch.setattr(gl.httpx, "AsyncClient", DummyClient)
@@ -90,11 +89,11 @@ async def test_random_choice_fallback(monkeypatch):
         async def __aexit__(self, exc_type, exc, tb):
             pass
 
-        async def get(self, url):
+        async def get(self, _url):
             raise gl.httpx.HTTPError("boom")
 
     monkeypatch.setattr(gl.httpx, "AsyncClient", ErrorClient)
-    monkeypatch.setattr(gl.random, "randint", lambda a, b: 3)
+    monkeypatch.setattr(gl.random, "randint", lambda _a, _b: 3)  # noqa: ARG005 – deterministic stub
 
     choice = await gl.random_choice()
     expected_idx = (3 - 1) % 5

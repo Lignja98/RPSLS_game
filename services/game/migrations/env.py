@@ -1,23 +1,23 @@
 from __future__ import annotations
 
 import asyncio
-import sys
 import logging
 from logging.config import fileConfig
 from pathlib import Path
+import sys
 from typing import cast
 
 from alembic import context
-from sqlalchemy.ext.asyncio import AsyncEngine, async_engine_from_config
 from sqlalchemy.engine import Connection
+from sqlalchemy.ext.asyncio import AsyncEngine
 
 # Ensure project "app" package is importable when Alembic runs standalone.
 PROJECT_ROOT = Path(__file__).resolve().parents[1]  # .../services/game
 sys.path.append(str(PROJECT_ROOT))
 
 from app.core.config import get_settings
-from app.db.database import Base, engine as sa_engine
-
+from app.db.database import Base
+from app.db.database import engine as sa_engine
 
 # ---------------------------------------------------------------------------
 # Alembic configuration
@@ -45,7 +45,7 @@ target_metadata = Base.metadata
 def run_migrations_offline() -> None:  # noqa: D401 – imperative mood
     """Run migrations in *offline* mode."""
 
-    url = cast(str, config.get_main_option("sqlalchemy.url"))
+    url = cast("str", config.get_main_option("sqlalchemy.url"))
     context.configure(url=url, target_metadata=target_metadata, literal_binds=True)
 
     with context.begin_transaction():

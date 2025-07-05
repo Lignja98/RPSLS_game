@@ -1,9 +1,8 @@
-import pytest
-
-from app.services.game_service import GameService
-from app.utils.enums import Choice
-from app.utils import game_logic as gl
 import app.services.game_service as gs
+from app.services.game_service import GameService
+from app.utils import game_logic as gl
+from app.utils.enums import Choice
+import pytest
 
 
 class DummyRepository:

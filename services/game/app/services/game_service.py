@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+from app.models.game import Game
 from app.repositories.game_repository import GameRepository
 from app.utils.enums import Choice
 from app.utils.game_logic import decide_winner, random_choice
-from app.models.game import Game
 
 
 class GameService:  # noqa: D101 – business-logic façade

@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import random
+
 import httpx
 
-from app.utils.enums import Choice, GameResult
 from app.core.config import get_settings
+from app.utils.enums import Choice, GameResult
 
 __all__ = [
     "decide_winner",
