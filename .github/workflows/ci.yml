@@ -64,6 +64,7 @@ jobs:
       - name: Build service image (no push)
         uses: docker/build-push-action@v5
         with:
-          context: ./services/game
+          context: .
+          file: services/game/Dockerfile
           push: false
           tags: rpsls-game:ci 
