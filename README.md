@@ -143,7 +143,7 @@ Metrics:
 * `rpsls_ai_mode_total{mode="random|smart"}` – round count per strategy.
 * `rpsls_ai_outcome_total{mode, outcome}` – win/lose/tie breakdown.
 
-Implementation details live in PR [#42](https://github.com) for easy diff review.
+Implementation details live in PR [#5](https://github.com/Lignja98/RPSLS_game/pull/5) for easy diff review.
 
 ---
 
