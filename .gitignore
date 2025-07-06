@@ -1,0 +1,100 @@
+# --- Python -----------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments & dependency managers
+.env
+.venv
+env/
+venv/
+ENV/
+venv.bak/
+.env.*
+.python-version
+Pipfile.lock
+poetry.lock
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+wheels/
+share/python-wheels/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+.pytest_cache/
+.tox/
+.nox/
+.coverage*
+htmlcov/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type checker & static analysis
+.mypy_cache/
+.pytype/
+.pyre/
+.dmypy.json
+
+# Jupyter & IPython
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# Documentation builds
+docs/_build/
+
+# Local databases & logs
+*.sqlite3
+*.db
+*.log
+
+# --- Framework specific ----------------------------------------------
+# Django
+local_settings.py
+db.sqlite3*
+# Flask
+instance/
+.webassets-cache/
+# Scrapy
+.scrapy/
+
+# --- IDE / Editor -----------------------------------------------------
+.vscode/
+.idea/
+.spyderproject
+.ropeproject
+
+# --- OS / Misc --------------------------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# --- Docker -----------------------------------------------------------
+**/.dockerignore
+
+# End of .gitignore 

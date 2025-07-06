@@ -1,26 +1,32 @@
-# UV Workspace Configuration for RPSLS Microservices
-# This file serves as the workspace root and development tooling configuration
+# RPSLS Game Service Configuration
 
-[tool.uv.workspace]
-members = [
-    "services/game-logic",
-    "services/player-management", 
-    "services/matchmaking",
-    "services/game-history",
-    "shared"
+[project]
+name = "game"
+version = "0.1.0"
+description = "Async FastAPI micro-service that plays Rock-Paper-Scissors-Lizard-Spock and persists game history in PostgreSQL."
+requires-python = ">=3.12"
+# Core runtime dependencies
+dependencies = [
+    "fastapi~=0.110",
+    "uvicorn[standard]~=0.29",
+    "sqlalchemy[asyncio]~=2.0",
+    "asyncpg~=0.29",
+    "aiosqlite~=0.19",
+    "alembic~=1.13",
+    "pydantic~=2.6",
+    "pydantic-settings~=2.2",
+    "httpx~=0.27",
+    "structlog~=24.1",
+    "prometheus-fastapi-instrumentator~=7.0",
 ]
 
-[tool.uv.sources]
-shared = { workspace = true }
-
-# Development dependencies for the entire workspace
+# Development dependencies
 [dependency-groups]
 dev = [
-    "pytest>=8.4.1",           # Testing framework for all services
-    "pytest-asyncio>=0.23.0",  # Async testing support
-    "httpx>=0.28.0",           # For integration testing between services
-    "ruff>=0.8.0",             # Fast linting + formatting (replaces black, isort, flake8)
-    "mypy>=1.8.0",             # Type checking
+    "pytest~=8.4",
+    "pytest-asyncio~=0.23",
+    "ruff~=0.8",
+    "mypy~=1.8",
 ]
 
 # Ruff Configuration (replaces black, isort, flake8)
@@ -70,10 +76,14 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     "C901",  # too complex
     "W191",  # indentation contains tabs
+    "TC001",
+    "TC002",
+    "TC003",
+    "E402",
+    "I001",
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["shared"]
 force-sort-within-sections = true
 
 [tool.ruff.format]
@@ -89,8 +99,16 @@ strict = true  # Enables most strict checks in one setting
 warn_return_any = true
 disallow_untyped_defs = true
 
+# Exclude test files from strict checking to keep the test code lightweight.
+exclude = "services/game/tests/.*"
+
 [[tool.mypy.overrides]]
 module = ["asyncpg.*", "sqlalchemy.*"]
+ignore_missing_imports = true
+
+# Ignore vendored Prometheus client – type stubs not shipped
+[[tool.mypy.overrides]]
+module = ["prometheus_fastapi_instrumentator.*"]
 ignore_missing_imports = true
 
 # Pytest Configuration
@@ -98,7 +116,6 @@ ignore_missing_imports = true
 minversion = "6.0"
 addopts = "-ra -q --strict-markers"
 testpaths = [
-    "services/*/tests",
-    "shared/tests"
+    "services/game/tests"
 ]
 asyncio_mode = "auto"
