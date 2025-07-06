@@ -37,7 +37,7 @@ settings = get_settings()
 
 engine: AsyncEngine = create_async_engine(
     settings.DATABASE_URL,
-    echo=settings.DEBUG,
+    echo=False,  # disable raw SA echo; we implement structured timing below
     pool_pre_ping=True,
 )
 
@@ -71,3 +71,43 @@ async def get_db_session() -> AsyncIterator[AsyncSession]:  # noqa: D401 – imp
         except Exception:  # noqa: BLE001 – re-raise after rollback
             await session.rollback()
             raise
+
+
+# ---------------------------------------------------------------------------
+# Optional query timing when DEBUG flag is set
+# ---------------------------------------------------------------------------
+
+if settings.DEBUG:
+    import time
+    import structlog
+    from typing import Any
+    from sqlalchemy import event
+
+    _sqllog = structlog.get_logger("sqlalchemy")
+
+    @event.listens_for(engine.sync_engine, "before_cursor_execute")
+    def _before_cursor_execute(
+        _conn: Any,
+        _cursor: Any,
+        _statement: str,
+        _parameters: Any,
+        context: Any,
+        _executemany: bool,
+    ) -> None:
+        context._query_start_time = time.perf_counter()
+
+    @event.listens_for(engine.sync_engine, "after_cursor_execute")
+    def _after_cursor_execute(
+        _conn: Any,
+        _cursor: Any,
+        statement: str,
+        _parameters: Any,
+        context: Any,
+        _executemany: bool,
+    ) -> None:
+        duration_ms = (time.perf_counter() - context._query_start_time) * 1000.0
+        _sqllog.debug(
+            "sql",
+            sql=statement.strip().replace("\n", " ")[:500],
+            duration_ms=round(duration_ms, 3),
+        )

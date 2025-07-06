@@ -16,6 +16,8 @@ dependencies = [
     "pydantic~=2.6",
     "pydantic-settings~=2.2",
     "httpx~=0.27",
+    "structlog~=24.1",
+    "prometheus-fastapi-instrumentator~=7.0",
 ]
 
 # Development dependencies
@@ -102,6 +104,11 @@ exclude = "services/game/tests/.*"
 
 [[tool.mypy.overrides]]
 module = ["asyncpg.*", "sqlalchemy.*"]
+ignore_missing_imports = true
+
+# Ignore vendored Prometheus client – type stubs not shipped
+[[tool.mypy.overrides]]
+module = ["prometheus_fastapi_instrumentator.*"]
 ignore_missing_imports = true
 
 # Pytest Configuration

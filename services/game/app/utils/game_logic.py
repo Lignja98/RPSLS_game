@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import random
+import time
 
 import httpx
+import structlog
 
 from app.core.config import get_settings
 from app.utils.enums import Choice, GameResult
@@ -58,13 +60,23 @@ async def random_choice() -> Choice:  # noqa: D401 – imperative mood
 
     settings = get_settings()
 
+    log = structlog.get_logger(__name__)
+
     try:
+        start = time.perf_counter()
         async with httpx.AsyncClient(timeout=2.0) as client:
             resp = await client.get(settings.RANDOM_API_URL)
-            resp.raise_for_status()
-            idx = int(resp.json().get("random_number", 0))
-    except Exception:  # noqa: BLE001 – broad except to ensure graceful fallback
+        duration_ms = (time.perf_counter() - start) * 1000.0
+        resp.raise_for_status()
+        idx = int(resp.json().get("random_number", 0))
+        log.info(
+            "random_api",
+            status_code=resp.status_code,
+            duration_ms=round(duration_ms, 2),
+        )
+    except Exception as exc:  # noqa: BLE001 – broad except to ensure graceful fallback
         idx = random.randint(1, 100)
+        log.warning("random_api_fallback", error=str(exc), idx=idx)
 
     gestures = list(Choice)
     return gestures[(idx - 1) % len(gestures)]

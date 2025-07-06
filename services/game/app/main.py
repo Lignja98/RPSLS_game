@@ -17,6 +17,16 @@ from app.core.config import get_settings
 from app.db.database import engine  # ensure engine is created at import time
 from app.api.v1.endpoints import all_routers
 
+# Initialise logging *before* anything else creates loggers
+from app.core.logging import init_logging
+
+init_logging()
+
+# ---------------------------------------------------------------------------
+# Middleware – request correlation ID
+# ---------------------------------------------------------------------------
+from app.core.middleware import request_id_middleware
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
@@ -50,3 +60,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ---------------------------------------------------------------------------
+# Middleware – request correlation ID
+# ---------------------------------------------------------------------------
+app.middleware("http")(request_id_middleware)
+
+# ---------------------------------------------------------------------------
+# Metrics – Prometheus (/metrics)
+# ---------------------------------------------------------------------------
+from prometheus_fastapi_instrumentator import Instrumentator
+
+# Expose default FastAPI metrics without adding them to the OpenAPI schema.
+Instrumentator().instrument(app).expose(app, include_in_schema=False)

@@ -47,6 +47,7 @@ async def test_random_choice_endpoint(monkeypatch):
     class DummyResp:  # minimal subset used by the code under test
         def __init__(self, num: int):
             self._num = num
+            self.status_code = 200  # mimic successful response
 
         def raise_for_status(self):
             pass
