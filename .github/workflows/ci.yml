@@ -1,0 +1,69 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache uv wheelhouse
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+
+      - name: Install uv
+        run: python -m pip install --upgrade uv
+
+      - name: Install project dependencies (frozen lockfile)
+        run: uv sync --frozen
+
+      # ------------------------------------------------------------------
+      # Static analysis & tests – executed inside the uv virtual env
+      # ------------------------------------------------------------------
+      - name: Ruff (format + lint)
+        run: |
+          uv run ruff format --check .
+          uv run ruff check .
+
+      - name: MyPy
+        run: uv run mypy .
+
+      - name: Pytest
+        run: uv run pytest -q
+
+  docker-build:
+    needs: quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build service image (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/game
+          push: false
+          tags: rpsls-game:ci 
