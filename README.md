@@ -84,6 +84,7 @@ uv run uvicorn services.game.app.main:app --reload
 # Raw API     → http://127.0.0.1:8000/api/v1
 #
 # Need to expose the service on *all* interfaces?  Pass `--host 0.0.0.0`.
+```
 
 ### Useful commands
 ```bash
@@ -128,4 +129,3 @@ Base prefix: **`/api/v1`**
 ---
 
 ### Made with ❤️ – enjoy reviewing!
-
