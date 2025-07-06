@@ -50,6 +50,7 @@ EXPOSE 8000
 # Copy entrypoint script and make it executable
 COPY services/game/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh
 
 # Use the entrypoint to run migrations then start the app
 ENTRYPOINT ["/entrypoint.sh"] 

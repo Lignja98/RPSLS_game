@@ -113,6 +113,38 @@ Base prefix: **`/api/v1`**
 
 (OpenAPI docs are auto-generated at `/docs`.)
 
+## 🎯 Smart mode (bonus)
+
+The computer can now switch between two strategies:
+
+1. **random** (default) – same behaviour as before.
+2. **smart** – analyses your last few moves (frequency-counter) and picks a counter-gesture with a dash of randomness.
+
+How to use it:
+
+* Via JSON body (easiest for Swagger UI):
+
+  ```json
+  POST /api/v1/play
+  {
+    "player": 1,
+    "mode": "smart"
+  }
+  ```
+
+* Or via query string:
+
+  `POST /api/v1/play?mode=smart` with `{ "player": 1 }` in the body.
+
+If you omit `mode` you get the original random play, ensuring full backward-compatibility with the UI.
+
+Metrics:
+
+* `rpsls_ai_mode_total{mode="random|smart"}` – round count per strategy.
+* `rpsls_ai_outcome_total{mode, outcome}` – win/lose/tie breakdown.
+
+Implementation details live in PR [#5](https://github.com/Lignja98/RPSLS_game/pull/5) for easy diff review.
+
 ---
 
 ## ⚙️ Tech Stack
