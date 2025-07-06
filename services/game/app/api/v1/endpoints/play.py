@@ -27,7 +27,7 @@ async def play_round(
 
     repo = GameRepository(session)
     service = GameService(repo)
-    game = await service.play(payload.to_choice())
+    game = await service.play(payload.to_choice(), payload.mode)
     return PlayResponse.from_round(
         game.player_choice, game.computer_choice, game.winner
     )

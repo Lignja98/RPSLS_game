@@ -15,3 +15,10 @@ class GameResult(StrEnum):
     PLAYER = "player"
     COMPUTER = "computer"
     TIE = "tie"
+
+
+class Mode(StrEnum):
+    """Available computer strategies for a round."""
+
+    RANDOM = "random"
+    SMART = "smart"

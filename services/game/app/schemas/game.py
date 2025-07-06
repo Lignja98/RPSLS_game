@@ -8,7 +8,7 @@ from typing import Any
 
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 
-from app.utils.enums import Choice, GameResult
+from app.utils.enums import Choice, GameResult, Mode
 
 __all__ = [
     "ChoiceRead",
@@ -58,6 +58,10 @@ class PlayRequest(BaseModel):
     """Payload for POST /play."""
 
     player: int = Field(..., ge=1, le=5, description="Choice identifier 1-5")
+    mode: Mode = Field(
+        default=Mode.RANDOM,
+        description="AI strategy to use (random | smart).",
+    )
 
     @field_validator("player")
     @classmethod
