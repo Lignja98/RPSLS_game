@@ -128,4 +128,27 @@ Base prefix: **`/api/v1`**
 
 ---
 
+## 🛡️ Continuous Integration (GitHub Actions)
+
+Every change is validated by an automated pipeline defined in `.github/workflows/ci.yml`.
+
+| Event | Branch | Purpose |
+|-------|--------|---------|
+| `pull_request` | `main` | Gatekeeper – blocks the merge until the code is green |
+| `push` | `main` | Verifies that the exact commit that landed in `main` still passes |
+
+The job matrix performs the following steps:
+1. Set up Python 3.12 and restore the cached **uv** wheelhouse to speed up installations.
+2. Install the project dependencies from the frozen `uv.lock` file.
+3. Run quality gates:
+   * `ruff format --check` – ensures the code is auto-formatted.
+   * `ruff check` – static-analysis / lint.
+   * `mypy` – strict type-checking.
+   * `pytest` – executes the full test-suite.
+4. If everything is green, a follow-up job builds the Docker image to make sure the Dockerfile stays healthy.
+
+The `main` branch is protected so a pull-request **cannot** be merged unless this workflow succeeds.
+
+---
+
 ### Made with ❤️ – enjoy reviewing!
